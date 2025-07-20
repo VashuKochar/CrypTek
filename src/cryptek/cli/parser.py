@@ -82,7 +82,7 @@ def create_parser() -> argparse.ArgumentParser:
     
     file_group.add_argument(
         '--ext', type=str,
-        help='Custom extension for encrypted output (required for encrypt mode)'
+        help='Custom extension for encrypted output (default: .cryptek)'
     )
     
     file_group.add_argument(
@@ -154,9 +154,9 @@ def validate_args(args: argparse.Namespace) -> None:
     """
     errors = []
     
-    # Check if extension is provided for encryption
+    # Set default extension for encryption if not provided
     if args.mode == 'encrypt' and not args.ext:
-        errors.append("--ext is required for encryption mode")
+        args.ext = '.cryptek'
     
     # Ensure extension starts with dot
     if args.ext and not args.ext.startswith('.'):

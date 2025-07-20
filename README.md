@@ -93,7 +93,7 @@ Microsoft’s “AES Encryption Tools” (Windows Store app) encrypts files with
 
 ```powershell
 cryptek.exe --mode encrypt --path "C:\docs\file.txt" \
-  --algo AES256 --aes-mode GCM --key "pass123" --ext ".vault" --log "C:\logs\ct.log"
+  --algo AES256 --aes-mode GCM --key "pass123" --log "C:\logs\ct.log"
 ```
 
 ### Key File Examples
@@ -160,7 +160,7 @@ cryptek-gui.exe
 | `--rsa-keysize`     | RSA key size: 1024, 2048, 3072, 4096 (default: 2048)|
 | `--blowfish-keysize`| Blowfish key size in bits: 32-448 (default: 128)    |
 | `--key`             | Password or key file path **(required)**             |
-| `--ext`             | Custom extension for encrypted output **(required for encrypt)** |
+| `--ext`             | Custom extension for encrypted output (default: .cryptek) |
 | `--recursive`       | Process folders recursively                          |
 | `--delete-original` | Delete source files post-encryption                  |
 | `--log`             | Path to audit log file **(required)**                |
