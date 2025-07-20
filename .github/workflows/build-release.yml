@@ -1,0 +1,92 @@
+name: Build and Release
+
+on:
+  push:
+    tags:
+      - 'v*'  # Trigger on version tags like v1.0.0
+  workflow_dispatch:  # Allow manual trigger
+
+jobs:
+  build:
+    name: Build Windows Executables
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install pyinstaller
+
+    - name: Build CLI executable
+      run: |
+        pyinstaller --onefile --name cryptek --distpath dist --clean cryptek.py
+
+    - name: Build GUI executable
+      run: |
+        pyinstaller --onefile --windowed --name cryptek-gui --distpath dist --clean cryptek_gui.py
+
+    - name: Test executables
+      run: |
+        ./dist/cryptek.exe --version
+        echo "CLI executable working!"
+
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: cryptek-windows
+        path: dist/*
+
+  release:
+    name: Create Release
+    runs-on: ubuntu-latest
+    needs: build
+    if: startsWith(github.ref, 'refs/tags/v')
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Download all artifacts
+      uses: actions/download-artifact@v3
+      with:
+        path: artifacts/
+
+    - name: Create Release
+      uses: softprops/action-gh-release@v1
+      with:
+        files: artifacts/*/*
+        body: |
+          ## 🛡️ CrypTek Release ${{ github.ref_name }}
+          
+          ### 📦 Downloads
+          - **cryptek.exe** - Command Line Interface
+          - **cryptek-gui.exe** - Graphical User Interface
+          
+          ### 🚀 Quick Start
+          1. Download the appropriate executable
+          2. Run as Administrator (for drive operations)
+          3. **CLI**: `cryptek.exe --help` for options
+          4. **GUI**: Double-click `cryptek-gui.exe`
+          
+          ### 🔐 Supported Algorithms
+          - AES-128/256 (CBC/GCM modes)
+          - RSA hybrid encryption
+          - Blowfish
+          
+          ### ⚠️ Important Notes
+          - Administrator privileges required for drive operations
+          - Always backup important data before encryption
+          - Keep passwords/keys secure - lost keys mean lost data
+          
+          ### 📖 Documentation
+          See [README.md](https://github.com/${{ github.repository }}/blob/main/README.md) for detailed usage instructions.
+        token: ${{ secrets.GITHUB_TOKEN }}
