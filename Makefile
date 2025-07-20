@@ -22,7 +22,7 @@ help:
 
 # Install core dependencies
 install:
-	pip install -r requirements.txt
+	pip install .
 
 # Install with development dependencies
 install-dev:
@@ -40,15 +40,19 @@ clean:
 
 # Build all executables
 build:
-	python scripts/build_new.py
+	pip install pyinstaller
+	pyinstaller --onefile --name cryptek --clean cryptek_cli.py
+	pyinstaller --onefile --windowed --name cryptek-gui --clean cryptek_gui_app.py
 
 # Build CLI only
 build-cli:
-	python scripts/build_new.py --cli-only
+	pip install pyinstaller
+	pyinstaller --onefile --name cryptek --clean cryptek_cli.py
 
 # Build GUI only
 build-gui:
-	python scripts/build_new.py --gui-only
+	pip install pyinstaller
+	pyinstaller --onefile --windowed --name cryptek-gui --clean cryptek_gui_app.py
 
 # Run CLI help
 run:

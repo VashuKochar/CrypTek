@@ -189,7 +189,7 @@ Operations log timestamp, mode, algorithm, input/output paths, and status. Outpu
 git clone https://github.com/YOUR_USERNAME/CrypTek.git
 cd CrypTek
 
-# Install dependencies
+# Install CrypTek package
 make install
 
 # Run tests
@@ -206,11 +206,11 @@ make run-gui
 
 ```bash
 make help          # Show all available commands
-make install       # Install core dependencies
-make install-dev   # Install development dependencies
+make install       # Install CrypTek package
+make install-dev   # Install with development tools
 make test          # Run test suite
 make clean         # Clean build artifacts
-make build         # Build executables
+make build         # Build Windows executables
 make run           # Test CLI
 make run-gui       # Launch GUI
 make lint          # Run code linting
@@ -219,16 +219,19 @@ make format        # Format code
 
 ### Building Executables
 
-Local build:
+**Local build:**
 ```bash
 make build         # Build both CLI and GUI executables
 ```
 
-Automated Windows releases:
+**Automated releases:**
 ```bash
 git tag -a v1.0.0 -m "Release v1.0.0"
 git push origin v1.0.0  # Triggers automated Windows build
 ```
+
+**Manual Windows build:**
+See [WINDOWS_BUILD.md](WINDOWS_BUILD.md) for detailed Windows build instructions if GitHub Actions fails.
 
 ## Contributing
 

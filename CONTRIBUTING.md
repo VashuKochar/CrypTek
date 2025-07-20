@@ -15,7 +15,7 @@ Thank you for your interest in contributing to CrypTek! This guide will help you
 
 3. **Set up development environment**:
    ```bash
-   make install-dev  # or pip install -e ".[dev]"
+   make install-dev  # Install with development tools
    ```
 
 ### Creating Releases
